@@ -41,5 +41,5 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           source: "dist/formulario_angular/browser/*"
           target: "/var/www/html/prueba.edulazarodev.com"
-          strip_compnents: 3
+          strip_components: 3
           rm: false

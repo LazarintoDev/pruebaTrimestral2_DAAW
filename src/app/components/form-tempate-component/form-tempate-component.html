@@ -1,0 +1,116 @@
+<h2>Formulario template-driven: Con validaciones.</h2> 
+
+<div class="container mt-4"> <!-- clases bootstrap -->
+
+<!-- 
+    #personaForm="ngForm" ➡️ variable local-html de referencia, para acceder a la directiva ngForm
+
+    "ngForm" indica a Angular, asigna a la variable #personaForm una instancia de la directiva ngForm que monta
+    objeto formulario NgForm, es una clase inyecta comportamiento precocinado al DOM (navegador). 
+
+    (ngSubmit) ➡️ event binding -> salida, captura evento submit del button
+    "onSubmit(personaForm)" ➡️ llamada al metodo del TS, envia objeto NgForm al TS
+    al que se le pasa el formulario de tipo ngForm
+ --><form #personaForm="ngForm" (ngSubmit)="onSubmit(personaForm)">
+
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+<!-- 
+    id es el identificador dentro del html (aplicar estilos, clases con #)   
+    y name es nombre de atributo/campo en el json y en el formulario que se envia
+
+    sin ngModel Angular ignora el input
+
+    required ➡️ campo obligatorio, para el [disabled]="personaForm.invalid"
+
+    pattern ➡️ para comprobacion regex
+
+    #campoNombre="ngModel" ➡️ ngForm toma todo el formulario, ngModel recoge solo al input
+-->
+        <input type="text" class="form-control"
+            id="nombre"
+            name="nombre" 
+            ngModel 
+            required
+            pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,}(\s[a-zA-ZñÑáéíóúÁÉÍÓÚ]{2,})?$"
+            placeholder="Tu nombre"
+            #campoNombre="ngModel">
+            
+<!--  
+    Damian hace las validaciones en el TS
+    
+    invalid ➡️ si input tiene error de validacion required o pattern = true
+    touched ➡️ event captura si has entrado en input = true     
+-->
+        @if (campoNombre.invalid && campoNombre.touched) {
+
+            <!-- 
+                .errors? ➡️ pregunta si input falla por required o por pattern
+            -->
+            @if (campoNombre.errors?.['required'] || campoNombre.errors?.['pattern']) {
+                <!-- Si da error, lanza este mensaje -->
+                <p class="text-danger mt-1 small">
+                    El nombre solo puede contener letras, si es nombre compuesto separado por un espacio.
+                </p>
+            }
+        }
+
+    </div>
+    <div class="mt-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="text" class="form-control"
+        id="email"
+        name="email" 
+        ngModel
+        placeholder="Tu email"
+        pattern="^[a-z\d._%+-]+@[a-z\d.-]{2,}\.[a-z]{2,}$"
+        #campoEmail ="ngModel">
+
+<!-- Damian hace las validaciones en el TS -->
+        @if(campoEmail.invalid && campoEmail.touched){
+            @if (campoEmail.errors?.['pattern']) {
+                <P class="text-danger mt-1 small">Email incorrecto</P>
+            }
+        }
+    </div>
+<!-- 
+    [disbled] ➡️ property binding, vincula propiedad nativa "[]" , de html con logica de codigo. 
+    si .invalid true desactiva button
+
+    "personaForm.invalid" ➡️ variable de arriba contiene el estado del formulario, invalid es true 
+    si no cumple alguna regla de validacion (ej. campo obligatorio)
+-->
+
+    <div class="mt-3">
+        <label for="edad" class="form-label">Edad</label>
+        <input type="number" class="form-control"
+        id="edad"
+        name="edad"
+        ngModel
+        placeholder="Tu edad"
+        min="18"
+        max="65"
+        pattern="^\d{2}$"
+        required
+        placeholder="Tu edad"
+        #campoEdad="ngModel"
+        >
+    </div>
+
+    @if (campoEdad.invalid && campoEdad.touched){
+        <p class="text-danger mt-1 small">La edad entre 18 y 65 años</p>
+    }
+
+    <button type="submit"
+        class="btn btn-primary mt-2"
+        [disabled]="personaForm.invalid">
+        Enviar
+    </button>
+
+</form>
+
+<div class="mt-3 alert alert-secondary">
+    <pre>{{personaForm.value | json}}</pre>
+</div>
+
+</div>

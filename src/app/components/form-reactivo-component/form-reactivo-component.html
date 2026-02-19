@@ -1,0 +1,46 @@
+<h2 class="text-center">Formulario reactivo</h2>
+<!-- 
+    En el TS se importa la clase FormGroup (formularios reactivos)
+
+    [formGroup] es un property binding (entrada), los [] vinculan una propiedad nativa html con la variable "form" del TS
+
+    (ngSubmit) es un event binding (salida), captura el evento de submit, y llama con "" al metodo onSubmit(), puede llamar un atributo
+    A diferencia de (click), (ngSubmit) asegura se procese el formulario si pasa validaciones
+    -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="container" style="max-width: 500px;">
+
+        <div class="">
+            <!-- formControlName ➡️ asigna valor al nombreAtributo en el formGroup del TS" -->
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="nombre" id="nombre" name="nombre"
+                placeholder="Tu nombre">
+
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" formControlName="apellidos" id="apellidos"
+                name="apellidos" placeholder="Tu apellido">
+
+            <label for="direccion" class="form-label">Direccion</label>
+            <input type="text" class="form-control" formControlName="direccion" id="direccion"
+                name="direccion" placeholder="Tu direccion">
+
+            <label for="edad" class="form-label">Edad</label>
+            <input type="text" class="form-control" formControlName="edad" id="eda" name="edad"
+                placeholder="Tu edad">
+
+            <button class=" btn btn-primary mt-2" type="submit">Enviar</button>
+        </div>
+
+        <div class="mt-3 d-flex justify-content-center align-items-center">
+            <span class="bg-opacity-25 bg-secondary py-2 px-4 rounded-3 shadow-sm ">
+                <p>Datos del formulario</p>
+                <!-- 
+                    se importa JsonPipe en TS, convierte el form, solo sirve para ver 
+                    datos en tiempo real para aprender o depuracion
+                    -->
+                <pre class="mt-4" style="width: 500px;">{{form.value|json}}</pre>
+            </span>
+        </div>
+
+    </div>
+</form>

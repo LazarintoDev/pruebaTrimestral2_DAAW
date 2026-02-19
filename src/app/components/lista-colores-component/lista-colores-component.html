@@ -1,0 +1,18 @@
+<h3>Lista de colores con inyección de dependencias (inyección del service)</h3>
+
+<p>Array de la variable colores del service ➡️ {{colores}}</p>
+<div class="">
+@if(colores.length > 0){
+    <ul class="text-primary">
+<!--         
+    track $index: listas estáticas 
+    track color: para string o numeros
+    track color.id: cuando elementos son objetos (JSON) ⬇️
+-->
+    @for (color of colores; track color) {
+        <li>{{color}}</li>
+    }
+    </ul>
+}
+    <!-- directiva estructural antigua = *ngFor="let item of list" -->
+</div>
